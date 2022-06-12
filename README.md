@@ -14,13 +14,13 @@
 
 ```mermaid
 sequenceDiagram
-    client->>API: create bank account request
+    Client->>API: create bank account request
     API->>API: validate request
     alt is invalid?
-        API->>client: error response (400)
+        API->>Client: error response (400)
     else
-        API->>queue(newbankaccounts): publilsh create bank account message
-        API->>client: accepted response (202)
+        API->>Queue (newbankaccounts): publilsh create bank account message
+        API->>Client: accepted response (202)
     end
 ```
 
