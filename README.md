@@ -13,18 +13,11 @@
 ### Create bank account
 
 ```mermaid
-sequenceDiagram
-
-client ->> API: create account request;
-API ->> API: validate request;
-alt is invalid?
-    API ->> client: error response;
-    else
-        API ->> queue: publish message;
-        API ->> client: accepted response;
-    end
-end
-
+graph TD;
+    A-->B;
+    A-->C;
+    B-->D;
+    C-->D;
 ```
 
 ### Transfer money between accounts
