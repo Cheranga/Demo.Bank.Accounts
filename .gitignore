@@ -20,3 +20,5 @@ Demo.Bank.Accounts.Database.Setup/bin/Debug/net6.0/
 Demo.Bank.Accounts.Database.Setup/obj/Debug/net6.0/
 
 Demo.Bank.Accounts.Database.Setup/obj/
+
+demodata/

@@ -15,6 +15,10 @@ services:
       SA_PASSWORD: "Pa55word123!"      
     ports:
       - "1433:1433"
+    volumes:
+      - ./demodata/data:/var/opt/mssql/data
+      - ./demodata/logs:/var/opt/mssql/log
+      - ./demodata/secrets:/var/opt/mssql/secrets
   dbsetup:
     build:
       dockerfile: Demo.Bank.Accounts.Database.Setup/Dockerfile
