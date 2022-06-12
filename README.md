@@ -13,7 +13,6 @@
 ### Create bank account
 
 ```mermaid
-
     A-->B;
     A-->C;
     B-->D;
