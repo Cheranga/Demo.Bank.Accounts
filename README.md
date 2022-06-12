@@ -17,7 +17,10 @@ sequenceDiagram
     client->>API: create bank account request
     API->>API: validate request
     alt is invalid?
-        API ->>client: error response
+        API->>client: error response (400)
+    else
+        API->>queue: publilsh create bank account message
+        API->>client: accepted response (202)
     end
 ```
 
