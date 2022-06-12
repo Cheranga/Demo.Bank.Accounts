@@ -13,7 +13,7 @@
 ### Create bank account
 
 ```mermaid
-sequenceDiagram;
+sequence Diagram;
     A-->B;
     A-->C;
     B-->D;
