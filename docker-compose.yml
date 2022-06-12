@@ -8,6 +8,11 @@ services:
     depends_on:
       - database
       - dbsetup
+      - storageemulator
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      StorageAccount: "DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://host.docker.internal:10000/devstoreaccount1;QueueEndpoint=http://host.docker.internal:10001/devstoreaccount1;TableEndpoint=http://host.docker.internal:10002/devstoreaccount1"
+
   database:
     image: mcr.microsoft.com/mssql/server:2019-latest
     environment:
@@ -19,6 +24,7 @@ services:
       - ./demodata/data:/var/opt/mssql/data
       - ./demodata/logs:/var/opt/mssql/log
       - ./demodata/secrets:/var/opt/mssql/secrets
+
   dbsetup:
     build:
       dockerfile: Demo.Bank.Accounts.Database.Setup/Dockerfile
@@ -30,3 +36,13 @@ services:
       PASSWORD: "Pa55word123!"
       DATABASE_NAME: "customeraccountsdb"
     restart: on-failure
+
+  storageemulator:
+    image: mcr.microsoft.com/azure-storage/azurite
+    command: "azurite --loose --blobHost 0.0.0.0 --blobPort 10000 --queueHost 0.0.0.0 --queuePort 10001 --tableHost 0.0.0.0 --tablePort 10002 --location /workspace --debug /workspace/debug.log"
+    ports:
+      - "10000:10000"
+      - "10001:10001"
+      - "10002:10002"
+    volumes:
+      - ./storagedata:/workspace
