@@ -13,7 +13,8 @@
 ### Create bank account
 
 ```mermaid
-    A-->B;
+graph TD;
+    client-->API: aaa;
     A-->C;
     B-->D;
     C-->D;
