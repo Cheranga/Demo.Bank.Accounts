@@ -5,3 +5,24 @@ services:
       dockerfile: Demo.Bank.Accounts.Api/Dockerfile
     ports:
       - "8080:80"
+    depends_on:
+      - database
+      - dbsetup
+  database:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "Pa55word123!"      
+    ports:
+      - "1433:1433"
+  dbsetup:
+    build:
+      dockerfile: Demo.Bank.Accounts.Database.Setup/Dockerfile
+    depends_on:
+      - database
+    environment:
+      SERVER_NAME: "database"
+      USERNAME: "sa"
+      PASSWORD: "Pa55word123!"
+      DATABASE_NAME: "customeraccountsdb"
+    restart: on-failure

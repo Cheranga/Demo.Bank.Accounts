@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo.BankAccounts.Api.Tests
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo.Bank.Accounts.Api", "Demo.Bank.Accounts.Api\Demo.Bank.Accounts.Api.csproj", "{8E0F7B1D-1E13-49D1-BB2C-0D23B4A54CBD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo.Bank.Accounts.Database.Setup", "Demo.Bank.Accounts.Database.Setup\Demo.Bank.Accounts.Database.Setup.csproj", "{02587F8D-9BED-4511-9268-B3CAAB46FBCB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{8E0F7B1D-1E13-49D1-BB2C-0D23B4A54CBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8E0F7B1D-1E13-49D1-BB2C-0D23B4A54CBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8E0F7B1D-1E13-49D1-BB2C-0D23B4A54CBD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{02587F8D-9BED-4511-9268-B3CAAB46FBCB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02587F8D-9BED-4511-9268-B3CAAB46FBCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02587F8D-9BED-4511-9268-B3CAAB46FBCB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02587F8D-9BED-4511-9268-B3CAAB46FBCB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
