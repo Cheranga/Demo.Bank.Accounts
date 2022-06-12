@@ -18,10 +18,10 @@ sequenceDiagram
 client ->> API: create account request
 API ->> API: validate request
 alt is invalid?
-    API ->> client: error response (400)
+    API ->> client: error response
     else
         API ->> queue: publish message
-        API ->> client: accepted response (202)
+        API ->> client: accepted response
     end
 end
 
