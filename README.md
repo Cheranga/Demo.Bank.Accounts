@@ -21,7 +21,7 @@ alt is invalid?
     API ->> client: error response (400)
     else
         API ->> queue: publish message
-        API ->> client: accepted response (202
+        API ->> client: accepted response (202)
     end
 end
 
