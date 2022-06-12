@@ -12,5 +12,19 @@
 
 ### Create bank account
 
+```mermaid
+sequenceDiagram
+
+client ->> API: create account request
+API ->> API: validate request
+alt is invalid?
+    API ->> client: error response (400)
+    else
+        API ->> queue: publish message
+        API ->> client: accepted response (202
+    end
+end
+
+```
 
 ### Transfer money between accounts
