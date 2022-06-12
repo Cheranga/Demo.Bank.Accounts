@@ -15,13 +15,13 @@
 ```mermaid
 sequenceDiagram
 
-client ->> API: create account request
-API ->> API: validate request
+client ->> API: create account request;
+API ->> API: validate request;
 alt is invalid?
-    API ->> client: error response
+    API ->> client: error response;
     else
-        API ->> queue: publish message
-        API ->> client: accepted response
+        API ->> queue: publish message;
+        API ->> client: accepted response;
     end
 end
 
