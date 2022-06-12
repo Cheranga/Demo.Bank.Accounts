@@ -14,10 +14,11 @@
 
 ```mermaid
 sequenceDiagram
-    Alice->>John: Hello John, how are you?
-    Alice->>John: John, can you hear me?
-    John-->>Alice: Hi Alice, I can hear you!
-    John-->>Alice: I feel great!
+    client->>API: create bank account request
+    API->>API: validate request
+    alt is invalid?
+        API ->>client: error response
+    end
 ```
 
 ### Transfer money between accounts
