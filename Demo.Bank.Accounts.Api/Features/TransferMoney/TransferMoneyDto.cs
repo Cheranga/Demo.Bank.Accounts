@@ -1,8 +1,9 @@
 using System.Text.Json.Serialization;
+using Demo.Bank.Accounts.Api.Shared;
 
 namespace Demo.Bank.Accounts.Api.Features.TransferMoney;
 
-public class TransferMoneyDto
+public class TransferMoneyDto : IIdentifier
 {
     [JsonIgnore]
     public string CorrelationId { get; set; }

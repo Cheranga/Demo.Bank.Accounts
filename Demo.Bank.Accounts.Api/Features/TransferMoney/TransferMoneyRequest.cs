@@ -1,6 +1,8 @@
-﻿namespace Demo.Bank.Accounts.Api.Features.TransferMoney;
+﻿using Demo.Bank.Accounts.Api.Shared;
 
-public class TransferMoneyRequest
+namespace Demo.Bank.Accounts.Api.Features.TransferMoney;
+
+public class TransferMoneyRequest : IIdentifier
 {
     public string CorrelationId { get; set; }
     public string CustomerId { get; set; }

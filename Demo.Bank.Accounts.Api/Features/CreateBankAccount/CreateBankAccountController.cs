@@ -41,6 +41,7 @@ public class CreateBankAccountController : ControllerBase
         var request = new CreateBankAccountRequest
         {
             CorrelationId = dto?.CorrelationId ?? string.Empty,
+            ClientId = dto?.ClientId?? string.Empty,
             Name = dto?.Name ?? string.Empty,
             Address = dto?.Address ?? string.Empty,
             EmployeeId = "666", // TODO: taking this from the auth token,

@@ -1,4 +1,6 @@
-﻿using Demo.Bank.Accounts.Api.Shared;
+﻿using Demo.Bank.Accounts.Api.Features.Shared;
+using Demo.Bank.Accounts.Api.Infrastructure.Messaging;
+using Demo.Bank.Accounts.Api.Shared;
 using FluentValidation;
 
 namespace Demo.Bank.Accounts.Api.Features.CreateBankAccount;
@@ -12,11 +14,17 @@ public class CreateBankAccountService : ICreateBankAccountService
 {
     private readonly ILogger<CreateBankAccountService> _logger;
     private readonly IValidator<CreateBankAccountRequest> _validator;
+    private readonly BankAccountConfig _config;
+    private readonly IMessagePublisher _messagePublisher;
 
     public CreateBankAccountService(IValidator<CreateBankAccountRequest> validator,
+        BankAccountConfig config,
+        IMessagePublisher messagePublisher,
         ILogger<CreateBankAccountService> logger)
     {
         _validator = validator;
+        _config = config;
+        _messagePublisher = messagePublisher;
         _logger = logger;
     }
 
@@ -29,8 +37,14 @@ public class CreateBankAccountService : ICreateBankAccountService
             return Result.Failure(ErrorCodes.InvalidRequest, validationResult);
         }
 
-        // TODO: implement the rest of the functionality.
-        _logger.LogInformation("{CorrelationId} creating bank account", request.CorrelationId);
+        var operation = await _messagePublisher.PublishAsync(_config.NewBankAccountsQueue, request);
+        if (!operation.Status)
+        {
+            _logger.LogError("{CorrelationId} cannot create account", request.CorrelationId);
+            return operation;
+        }
+
+        _logger.LogInformation("{CorrelationId} bank account creation request submitted successfully", request.CorrelationId);
         return Result.Success();
     }
 }
