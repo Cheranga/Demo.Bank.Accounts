@@ -19,7 +19,7 @@ sequenceDiagram
     alt is invalid?
         API->>client: error response (400)
     else
-        API->>queue: publilsh create bank account message
+        API->>queue(newbankaccounts): publilsh create bank account message
         API->>client: accepted response (202)
     end
 ```
