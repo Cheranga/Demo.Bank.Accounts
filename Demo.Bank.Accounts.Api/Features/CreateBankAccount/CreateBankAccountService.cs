@@ -30,6 +30,7 @@ public class CreateBankAccountService : ICreateBankAccountService
         }
 
         // TODO: implement the rest of the functionality.
+        _logger.LogInformation("{CorrelationId} creating bank account", request.CorrelationId);
         return Result.Success();
     }
 }

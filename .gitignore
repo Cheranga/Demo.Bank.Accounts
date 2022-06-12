@@ -14,3 +14,11 @@ Demo.BankAccounts.Api.Tests/bin/Debug/net6.0/de/
 Demo.BankAccounts.Api.Tests/bin/Debug/net6.0/
 
 Demo.BankAccounts.Api.Tests/obj/
+
+Demo.Bank.Accounts.Database.Setup/bin/Debug/net6.0/
+
+Demo.Bank.Accounts.Database.Setup/obj/Debug/net6.0/
+
+Demo.Bank.Accounts.Database.Setup/obj/
+
+demodata/

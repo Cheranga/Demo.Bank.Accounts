@@ -2,9 +2,11 @@
 
 ## TODO:
 
-- [ ] Docker support with docker compose. 
+- [x] Docker support with docker compose. 
 - [ ] Using SQL server as the database.
 - [ ] Database migration as a sidecar.
+  - [x] Local setup.
+  - [ ] Deployed environment.
 - [ ] Using storage queues for events.
 - [ ] Background service which listens to the queue, and perform operations.
 
