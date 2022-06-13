@@ -2,6 +2,7 @@
 
 ## TODO:
 
+- [x] [Document local setup](#local-setup)
 - [x] Docker support with docker compose. 
 - [ ] Using SQL server as the database.
 - [ ] Database migration as a sidecar.
