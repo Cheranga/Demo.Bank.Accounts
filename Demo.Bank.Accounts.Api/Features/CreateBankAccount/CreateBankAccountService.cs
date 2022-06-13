@@ -1,4 +1,6 @@
-﻿using Demo.Bank.Accounts.Api.Features.Shared;
+﻿using Demo.Bank.Accounts.Api.Features.SaveBankAccount;
+using Demo.Bank.Accounts.Api.Features.Shared;
+using Demo.Bank.Accounts.Api.Infrastructure.DataAccess;
 using Demo.Bank.Accounts.Api.Infrastructure.Messaging;
 using Demo.Bank.Accounts.Api.Shared;
 using FluentValidation;
@@ -16,15 +18,18 @@ public class CreateBankAccountService : ICreateBankAccountService
     private readonly IValidator<CreateBankAccountRequest> _validator;
     private readonly BankAccountConfig _config;
     private readonly IMessagePublisher _messagePublisher;
+    private readonly ICommandHandler<SaveBankAccountCommand> _commandHandler;
 
     public CreateBankAccountService(IValidator<CreateBankAccountRequest> validator,
         BankAccountConfig config,
         IMessagePublisher messagePublisher,
+        ICommandHandler<SaveBankAccountCommand> commandHandler,
         ILogger<CreateBankAccountService> logger)
     {
         _validator = validator;
         _config = config;
         _messagePublisher = messagePublisher;
+        _commandHandler = commandHandler;
         _logger = logger;
     }
 
@@ -36,6 +41,21 @@ public class CreateBankAccountService : ICreateBankAccountService
             _logger.LogWarning("Invalid request received {@InvalidRequest}", request);
             return Result.Failure(ErrorCodes.InvalidRequest, validationResult);
         }
+
+        var command = new SaveBankAccountCommand
+        {
+            Address = request.Address,
+            Name = request.Name,
+            ClientId = request.ClientId,
+            CorrelationId = request.CorrelationId,
+            CreatedAt = DateTime.UtcNow,
+            OpeningBalance = request.OpeningBalance,
+            BankAccountId = request.BankAccountId
+        };
+
+        var upsertOperation = await _commandHandler.ExecuteAsync(command);
+        
+        
 
         var operation = await _messagePublisher.PublishAsync(_config.NewBankAccountsQueue, request);
         if (!operation.Status)
