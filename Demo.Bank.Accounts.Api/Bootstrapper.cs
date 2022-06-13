@@ -1,7 +1,9 @@
 ﻿using Azure.Identity;
 using Demo.Bank.Accounts.Api.Features.CreateBankAccount;
+using Demo.Bank.Accounts.Api.Features.SaveBankAccount;
 using Demo.Bank.Accounts.Api.Features.Shared;
 using Demo.Bank.Accounts.Api.Features.TransferMoney;
+using Demo.Bank.Accounts.Api.Infrastructure.DataAccess;
 using Demo.Bank.Accounts.Api.Infrastructure.Messaging;
 using Demo.Bank.Accounts.Api.Shared;
 using FluentValidation;
@@ -21,6 +23,12 @@ public static class Bootstrapper
         RegisterApplicationServices(services);
         RegisterResponseCreators(services);
         RegisterMessaging(services);
+        RegisterDataAccess(services);
+    }
+
+    private static void RegisterDataAccess(IServiceCollection services)
+    {
+        services.AddScoped<ICommandHandler<SaveBankAccountCommand>, SaveBankAccountCommandHandler>();
     }
 
     private static void RegisterConfigs(WebApplicationBuilder builder)

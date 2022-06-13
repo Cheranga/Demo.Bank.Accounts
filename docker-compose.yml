@@ -1,5 +1,5 @@
 version: '3.4'
-services:
+services:  
   api:
     build:
       dockerfile: Demo.Bank.Accounts.Api/Dockerfile
@@ -12,6 +12,7 @@ services:
     environment:
       ASPNETCORE_ENVIRONMENT: "Development"
       StorageAccount: "DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://host.docker.internal:10000/devstoreaccount1;QueueEndpoint=http://host.docker.internal:10001/devstoreaccount1;TableEndpoint=http://host.docker.internal:10002/devstoreaccount1"
+      BankAccountConfig__DatabaseConnectionString: "Server=database,1433;Database=customeraccountsdb;User Id=SA;Password=Pa55word123!"
 
   database:
     image: mcr.microsoft.com/mssql/server:2019-latest

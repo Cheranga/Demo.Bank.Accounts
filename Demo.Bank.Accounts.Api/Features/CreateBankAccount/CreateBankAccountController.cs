@@ -40,13 +40,12 @@ public class CreateBankAccountController : ControllerBase
     {
         var request = new CreateBankAccountRequest
         {
+            BankAccountId = Guid.NewGuid().ToString("N").ToUpper(),
             CorrelationId = dto?.CorrelationId ?? string.Empty,
             ClientId = dto?.ClientId?? string.Empty,
             Name = dto?.Name ?? string.Empty,
             Address = dto?.Address ?? string.Empty,
-            EmployeeId = "666", // TODO: taking this from the auth token,
-            OpeningBalance = dto?.OpeningBalance ?? 0,
-            CreatedAt = DateTime.UtcNow
+            OpeningBalance = dto?.OpeningBalance ?? 0
         };
 
         return request;

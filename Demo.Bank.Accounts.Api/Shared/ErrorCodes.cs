@@ -9,6 +9,8 @@ public class ErrorCodes
     public const string InvalidMessage = nameof(InvalidMessage);
     public const string CannotCreateQueue = nameof(CannotCreateQueue);
     public const string MessagePublishError = nameof(MessagePublisher);
+    public const string InvalidCommand = nameof(InvalidCommand);
+    public const string CommandError = nameof(CommandError);
 }
 
 public class ErrorMessages
@@ -18,4 +20,6 @@ public class ErrorMessages
     public const string InvalidMessage = "invalid message";
     public const string CannotCreateQueue = "error occurred when creating the queue";
     public const string MessagePublishError = "error occurred when publishing a message to the queue";
+    public const string InvalidCommand = "invalid command";
+    public const string CommandError = "error occurred when executing the data command";
 }
