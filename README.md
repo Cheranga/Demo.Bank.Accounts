@@ -1,6 +1,6 @@
 # Demo.Bank.Accounts
 
-## TODO:
+## Goals:
 
 - [x] [Document local setup](#local-setup)
 - [x] Docker support with docker compose. 
@@ -19,6 +19,8 @@
 4. Create a folder called "storagedata". This is the mount volume for Azurite.
 5. Run `docker-compose up` command.
 6. Browse to `http://localhost:8080/swagger`
+
+[<<Goals](#goals)
 
 ## Features
 
