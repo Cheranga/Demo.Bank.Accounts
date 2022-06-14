@@ -27,23 +27,23 @@ module storageAccount 'storageaccount/template.bicep' = {
   }
 }
 
-// module database 'sqlserver/template.bicep' = {
-//   name: '${buildNumber}-testdb'
-//   params: {
-//     location: 'australiaeast'
-//     serverName: 'ccdemosqlserver'
-//     databaseName: databaseName
-//     adminUserName: databaseUserName
-//     adminPassword: databasePassword
-//   }
-// }
+module database 'sqlserver/template.bicep' = {
+  name: '${buildNumber}-testdb'
+  params: {
+    location: 'australiaeast'
+    serverName: databaseServerName
+    databaseName: databaseName
+    adminUserName: databaseUserName
+    adminPassword: databasePassword
+  }
+}
 
 module containerInstance 'aci/template.bicep' = {
   name: '${buildNumber}-container-instance'
   params: {
     location: location
     name: aciName
-    databaseConnectionString: databaseConnectionString
+    databaseConnectionString: database.outputs.connectionString
     databaseServerName: databaseServerName
     databaseName: databaseName
     databaseUserName: databaseUserName

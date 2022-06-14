@@ -102,6 +102,8 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}      
 
       - name: Provision Resources
+        env:
+          DATABASE_SERVER: ccdemosqlserver${{ env.APP_NAME }}
         uses: azure/arm-deploy@v1
         with:
           failOnStdErr: false
@@ -115,7 +117,7 @@ jobs:
             location=${{ env.RG_LOCATION }}
             containerImage=${{ secrets.DOCKER_USER }}/demobankaccounts:${{ env.BUILD_VERSION }}            
             databaseSetupImage=${{ secrets.DOCKER_USER }}/demobankaccountsdbsetup:${{ env.BUILD_VERSION }}            
-            databaseServerName=${{ secrets.DATABASE_SERVER_NAME }}
+            databaseServerName=${{ env.DATABASE_SERVER }}
             databaseName=${{ secrets.DATABASE_NAME }}
             databaseUserName=${{ secrets.DATABASE_USERNAME }}
             databasePassword=${{ secrets.DATABASE_PASSWORD }}

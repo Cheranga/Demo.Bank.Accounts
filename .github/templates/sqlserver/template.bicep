@@ -32,18 +32,18 @@ resource serverName_databaseName 'Microsoft.Sql/servers/databases@2020-08-01-pre
     tier: 'Basic'
     capacity: 5
   }
-  properties:{
+  properties: {
     collation: 'SQL_Latin1_General_CP1_CI_AS'
-    maxSizeBytes:1073741824
-    catalogCollation:'SQL_Latin1_General_CP1_CI_AS'
-    zoneRedundant:false
-    readScale:'Disabled'    
+    maxSizeBytes: 1073741824
+    catalogCollation: 'SQL_Latin1_General_CP1_CI_AS'
+    zoneRedundant: false
+    readScale: 'Disabled'
   }
 }
 
 resource serverName_AllowAllWindowsAzureIps 'Microsoft.Sql/servers/firewallRules@2020-02-02-preview' = {
   parent: serverName_resource
-  name: 'AllowAllWindowsAzureIps'  
+  name: 'AllowAllWindowsAzureIps'
   properties: {
     startIpAddress: '0.0.0.0'
     endIpAddress: '0.0.0.0'
@@ -56,7 +56,7 @@ resource symbolicname 'Microsoft.Sql/servers/connectionPolicies@2021-11-01-previ
   properties: {
     connectionType: 'Redirect'
   }
-  dependsOn:[    
+  dependsOn: [
     serverName_databaseName
   ]
 }
