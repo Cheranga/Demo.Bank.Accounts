@@ -42,5 +42,12 @@ jobs:
         run: dotnet build --no-restore -c Release
 
       - name: Test Projects
-        run: dotnet test --no-restore --verbosity normal        
+        run: dotnet test --no-restore --verbosity normal       
+          
+      - name: Publish Artifacts - Deployment Templates
+        uses: actions/upload-artifact@v3
+        with:
+          name: deploy
+          path: ./.github/templates
+          if-no-files-found: error             
   
