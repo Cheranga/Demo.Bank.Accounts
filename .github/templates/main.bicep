@@ -30,11 +30,11 @@ module storageAccount 'storageaccount/template.bicep' = {
 module testDatabase 'sqlserver/template.bicep' = {
   name: '${buildNumber}-testdb'
   params: {
-    serverLocation: location
-    adminPassword: databasePassword
-    adminUserName: databaseUserName
+    location: location
+    serverName: 'ccdemosqlserver'
     databaseName: databaseName
-    serverName: 'cchatsqlserver'
+    adminUserName: databaseUserName
+    adminPassword: databasePassword
   }
 }
 
