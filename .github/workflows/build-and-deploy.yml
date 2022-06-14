@@ -113,7 +113,7 @@ jobs:
             appName=${{ env.APP_NAME }}
             environmentName=dev
             location=${{ env.RG_LOCATION }}
-            containerImage=${{ secrets.DOCKER_USER }}/democancelhotelbooking:${{ env.BUILD_VERSION }}            
+            containerImage=${{ secrets.DOCKER_USER }}/demobankaccounts:${{ env.BUILD_VERSION }}            
             databaseSetupImage=${{ secrets.DOCKER_USER }}/demobankaccountsdbsetup:${{ env.BUILD_VERSION }}            
             databaseServerName=${{ secrets.DATABASE_SERVER_NAME }}
             databaseName=${{ secrets.DATABASE_NAME }}
