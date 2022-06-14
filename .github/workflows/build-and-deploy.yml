@@ -56,6 +56,9 @@ jobs:
     name: DEV
     needs: build
     runs-on: ubuntu-latest
+    env:
+      ENVNAME: "dev"
+
     steps:
       - name: Generate Build Number
         id: generatebuildnumber
@@ -68,5 +71,18 @@ jobs:
           dockerPassword: ${{secrets.DOCKER_PASSWORD}}
           dockerFilePath: Demo.Bank.Accounts.Api/Dockerfile
           imageName: demobankaccounts
-          imageTag: ${{ env.BUILD_VERSION }}               
+          imageTag: ${{ env.BUILD_VERSION }}   
+
+      - name: Download Artifact - Templates
+        uses: actions/download-artifact@v3
+        with:
+          name: deploy
+          path: deploy
+      
+      - name: Create Resource Group - ${{ env.RG_NAME }}-${{ env.ENVNAME }}
+        uses: Cheranga/GitHubActions/createresourcegroup@master
+        with:
+          credentials: ${{ secrets.AZURE_CREDENTIALS }}
+          name: ${{ env.RG_NAME }}-${{ env.ENVNAME }}
+          location: ${{ env.RG_LOCATION }}                      
   
