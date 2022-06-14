@@ -39,3 +39,9 @@ sequenceDiagram
 ```
 
 ### Transfer money between accounts
+
+
+### References
+
+- [Creating mermaid diagrams in GitHub readme](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/creating-diagrams)
+- [Using the Azurite emulator for local Azure Storage development](https://docs.microsoft.com/en-us/azure/storage/common/storage-use-azurite?tabs=visual-studio)

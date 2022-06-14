@@ -1,0 +1,46 @@
+﻿name: "Demo.Bank.Accounts"
+concurrency: "Demo.Bank.Accounts"
+env:
+  APP_NAME: demobankaccounts
+  RG_NAME: rg-bank-accounts
+  RG_LOCATION: australiasoutheast
+  DOTNET_VERSION: 6.0.x
+  PUBLISHED_PATH: ./published
+  
+on:
+
+  pull_request:
+    branches:
+      - main
+    paths-ignore:
+      - README.md
+      - .gitignore
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - README.md
+      - .gitignore
+        
+jobs:
+  build:
+    name: Build and Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install .NET Core
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Restore projects
+        run: dotnet restore
+
+      - name: Build Projects
+        run: dotnet build --no-restore -c Release
+
+      - name: Test Projects
+        run: dotnet test --no-restore --verbosity normal        
+  
