@@ -66,7 +66,7 @@ jobs:
         with:
           dockerUserName: ${{secrets.DOCKER_USER}}
           dockerPassword: ${{secrets.DOCKER_PASSWORD}}
-          dockerFilePath: Demo.Hotel.Cancellations/Dockerfile
-          imageName: democancelhotelbooking
+          dockerFilePath: Demo.Bank.Accounts.Api/Dockerfile
+          imageName: demobankaccounts
           imageTag: ${{ env.BUILD_VERSION }}               
   
