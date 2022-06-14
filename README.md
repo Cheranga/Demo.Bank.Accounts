@@ -1,7 +1,8 @@
 # Demo.Bank.Accounts
 
-## TODO:
+## Goals:
 
+- [x] [Document local setup](#local-setup)
 - [x] Docker support with docker compose. 
 - [ ] Using SQL server as the database.
 - [ ] Database migration as a sidecar.
@@ -18,6 +19,8 @@
 4. Create a folder called "storagedata". This is the mount volume for Azurite.
 5. Run `docker-compose up` command.
 6. Browse to `http://localhost:8080/swagger`
+
+[<<Goals](#goals)
 
 ## Features
 
@@ -36,3 +39,9 @@ sequenceDiagram
 ```
 
 ### Transfer money between accounts
+
+
+### References
+
+- [Creating mermaid diagrams in GitHub readme](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/creating-diagrams)
+- [Using the Azurite emulator for local Azure Storage development](https://docs.microsoft.com/en-us/azure/storage/common/storage-use-azurite?tabs=visual-studio)

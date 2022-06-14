@@ -1,0 +1,129 @@
+﻿name: "Demo.Bank.Accounts"
+concurrency: "Demo.Bank.Accounts"
+env:
+  APP_NAME: demobankaccounts
+  RG_NAME: rg-bank-accounts
+  RG_LOCATION: australiasoutheast
+  DOTNET_VERSION: 6.0.x
+  PUBLISHED_PATH: ./published
+  
+on:
+
+  pull_request:
+    branches:
+      - main
+    paths-ignore:
+      - README.md
+      - .gitignore
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - README.md
+      - .gitignore
+        
+jobs:
+  build:
+    name: Build and Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install .NET Core
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Restore projects
+        run: dotnet restore
+
+      - name: Build Projects
+        run: dotnet build --no-restore -c Release
+
+      - name: Test Projects
+        run: dotnet test --no-restore --verbosity normal       
+          
+      - name: Publish Artifacts - Deployment Templates
+        uses: actions/upload-artifact@v3
+        with:
+          name: deploy
+          path: ./.github/templates
+          if-no-files-found: error      
+            
+  deploytodev:
+    environment: DEV
+    name: DEV
+    needs: build
+    runs-on: ubuntu-latest
+    env:
+      ENVNAME: "dev"
+
+    steps:
+      - name: Generate Build Number
+        id: generatebuildnumber
+        run: |
+          echo "BUILD_VERSION=$(date +%Y%m%d%H%M)" >> $GITHUB_ENV
+
+      - name: Build Image and Publish Bank Accounts API
+        uses: Cheranga/GitHubActions/buildandpushtodockerhub@master
+        with:
+          dockerUserName: ${{secrets.DOCKER_USER}}
+          dockerPassword: ${{secrets.DOCKER_PASSWORD}}
+          dockerFilePath: Demo.Bank.Accounts.Api/Dockerfile
+          imageName: demobankaccounts
+          imageTag: ${{ env.BUILD_VERSION }}   
+
+      - name: Build Image and Publish Bank Accounts Database Setup Sidecar
+        uses: Cheranga/GitHubActions/buildandpushtodockerhub@master
+        with:
+          dockerUserName: ${{secrets.DOCKER_USER}}
+          dockerPassword: ${{secrets.DOCKER_PASSWORD}}
+          dockerFilePath: Demo.Bank.Accounts.Database.Setup/Dockerfile
+          imageName: demobankaccountsdbsetup
+          imageTag: ${{ env.BUILD_VERSION }}             
+
+      - name: Download Artifact - Templates
+        uses: actions/download-artifact@v3
+        with:
+          name: deploy
+          path: deploy
+      
+      - name: Create Resource Group - ${{ env.RG_NAME }}-${{ env.ENVNAME }}
+        uses: Cheranga/GitHubActions/createresourcegroup@master
+        with:
+          credentials: ${{ secrets.AZURE_CREDENTIALS }}
+          name: ${{ env.RG_NAME }}-${{ env.ENVNAME }}
+          location: ${{ env.RG_LOCATION }}  
+
+      - name: Login to Azure CLI       
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}      
+
+      - name: Provision Resources
+        uses: azure/arm-deploy@v1
+        with:
+          failOnStdErr: false
+          deploymentName: ${{ env.BUILD_VERSION }}-${{ env.APP_NAME }}
+          resourceGroupName: ${{ env.RG_NAME }}-dev
+          template: deploy/main.bicep
+          parameters: >            
+            buildNumber=${{ env.BUILD_VERSION }}
+            appName=${{ env.APP_NAME }}
+            environmentName=dev
+            location=${{ env.RG_LOCATION }}
+            containerImage=${{ secrets.DOCKER_USER }}/demobankaccounts:${{ env.BUILD_VERSION }}            
+            databaseSetupImage=${{ secrets.DOCKER_USER }}/demobankaccountsdbsetup:${{ env.BUILD_VERSION }}            
+            databaseServerName=${{ secrets.DATABASE_SERVER_NAME }}
+            databaseName=${{ secrets.DATABASE_NAME }}
+            databaseUserName=${{ secrets.DATABASE_USERNAME }}
+            databasePassword=${{ secrets.DATABASE_PASSWORD }}
+            databaseConnectionString=${{ secrets.DATABASE_CONNECTIONSTRING }}            
+
+      - name: Logout from Azure CLI     
+        uses: azure/CLI@v1
+        with:
+          inlineScript: |
+            az logout                                    
+  
