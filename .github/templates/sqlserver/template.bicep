@@ -50,4 +50,15 @@ resource serverName_AllowAllWindowsAzureIps 'Microsoft.Sql/servers/firewallRules
   }
 }
 
+resource symbolicname 'Microsoft.Sql/servers/connectionPolicies@2021-11-01-preview' = {
+  name: 'default'
+  parent: serverName_resource
+  properties: {
+    connectionType: 'Redirect'
+  }
+  dependsOn:[    
+    serverName_databaseName
+  ]
+}
+
 output connectionString string = 'Server=tcp:${serverName_resource.properties.fullyQualifiedDomainName},1433;Initial Catalog=${databaseName};Persist Security Info=False;User ID=${adminUserName};Password=${adminPassword};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;'
