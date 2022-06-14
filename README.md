@@ -4,11 +4,11 @@
 
 - [x] [Document local setup](#local-setup)
 - [x] Docker support with docker compose. 
-- [ ] Using SQL server as the database.
-- [ ] Database migration as a sidecar.
+- [x] Using SQL server as the database.
+- [x] Database migration as a sidecar.
   - [x] Local setup.
-  - [ ] Deployed environment.
-- [ ] Using storage queues for events.
+  - [x] Deployed environment.
+- [x] Using storage queues for events.
 - [ ] Background service which listens to the queue, and perform operations.
 
 ## Local Setup
