@@ -4,18 +4,16 @@ param environmentName string
 param location string = resourceGroup().location
 param containerImage string
 param databaseSetupImage string
+param sqlServerLocation string
 param databaseServerName string
 param databaseName string
 param databaseUserName string
 @secure()
 param databasePassword string
-@secure()
-param databaseConnectionString string
 
 var storageName = 'sg${appName}${environmentName}'
 var aciName = 'aci-${appName}-${environmentName}'
 var newBankAccountsQueue = 'newbankaccounts'
-var sqlServerLocation = 'australiaeast'
 var tableNames = ''
 
 module storageAccount 'storageaccount/template.bicep' = {
@@ -29,7 +27,7 @@ module storageAccount 'storageaccount/template.bicep' = {
 }
 
 module database 'sqlserver/template.bicep' = {
-  name: '${buildNumber}-testdb'
+  name: '${buildNumber}-database-setup'
   params: {
     location: sqlServerLocation
     serverName: databaseServerName

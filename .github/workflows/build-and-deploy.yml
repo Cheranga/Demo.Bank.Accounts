@@ -104,6 +104,7 @@ jobs:
       - name: Provision Resources
         env:
           DATABASE_SERVER: ccdemosqlserverdev
+          SQL_SERVER_LOCATION: australiaeast
         uses: azure/arm-deploy@v1
         with:
           failOnStdErr: false
@@ -118,6 +119,7 @@ jobs:
             containerImage=${{ secrets.DOCKER_USER }}/demobankaccounts:${{ env.BUILD_VERSION }}            
             databaseSetupImage=${{ secrets.DOCKER_USER }}/demobankaccountsdbsetup:${{ env.BUILD_VERSION }}            
             databaseServerName=${{ env.DATABASE_SERVER }}
+            sqlServerLocation=${{ env.SQL_SERVER_LOCATION }}
             databaseName=${{ secrets.DATABASE_NAME }}
             databaseUserName=${{ secrets.DATABASE_USERNAME }}
             databasePassword=${{ secrets.DATABASE_PASSWORD }}

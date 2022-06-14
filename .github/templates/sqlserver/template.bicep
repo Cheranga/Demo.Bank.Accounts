@@ -15,9 +15,9 @@ param adminUserName string
 @secure()
 param adminPassword string
 
-var dbServerUrl = '${serverName}.database.windows.net'
+var dbServerUrl = 'tcp:${serverName}.database.windows.net'
 
-resource serverName_resource 'Microsoft.Sql/servers@2020-02-02-preview' = {
+resource sqlServer 'Microsoft.Sql/servers@2020-02-02-preview' = {
   name: serverName
   location: location
   identity:{
@@ -31,8 +31,8 @@ resource serverName_resource 'Microsoft.Sql/servers@2020-02-02-preview' = {
   }  
 }
 
-resource serverName_databaseName 'Microsoft.Sql/servers/databases@2020-08-01-preview' = {
-  parent: serverName_resource
+resource sqlDatabase 'Microsoft.Sql/servers/databases@2020-08-01-preview' = {
+  parent: sqlServer
   name: databaseName
   location: location
   sku: {
@@ -49,8 +49,8 @@ resource serverName_databaseName 'Microsoft.Sql/servers/databases@2020-08-01-pre
   }
 }
 
-resource serverName_AllowAllWindowsAzureIps 'Microsoft.Sql/servers/firewallRules@2020-02-02-preview' = {
-  parent: serverName_resource
+resource allowedWindowsAzureIps 'Microsoft.Sql/servers/firewallRules@2020-02-02-preview' = {
+  parent: sqlServer
   name: 'AllowAllWindowsAzureIps'
   properties: {
     startIpAddress: '0.0.0.0'
@@ -60,14 +60,14 @@ resource serverName_AllowAllWindowsAzureIps 'Microsoft.Sql/servers/firewallRules
 
 resource connectionPolicies 'Microsoft.Sql/servers/connectionPolicies@2021-11-01-preview' = {
   name: 'default'
-  parent: serverName_resource
+  parent: sqlServer
   properties: {
     connectionType: 'Redirect'
   }
   dependsOn: [
-    serverName_databaseName
+    sqlDatabase
   ]
 }
 
-output connectionString string = 'Server=tcp:${dbServerUrl},1433;Initial Catalog=${databaseName};Persist Security Info=False;User ID=${adminUserName};Password=${adminPassword};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;'
-output databaseServerUrl string = 'tcp:${dbServerUrl}'
+output connectionString string = 'Server=${dbServerUrl},1433;Initial Catalog=${databaseName};Persist Security Info=False;User ID=${adminUserName};Password=${adminPassword};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;'
+output databaseServerUrl string = dbServerUrl
