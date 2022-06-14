@@ -47,3 +47,17 @@ module containerInstance 'aci/template.bicep' = {
     storageAccount
   ]
 }
+
+module rbacqueue 'rbac/template.bicep'= {
+  name: '${appName}-rbacqueues'
+  params: {    
+    accessibility: 'queue_read_write'
+    friendlyName: '${appName}queueaccess'
+    principalId: containerInstance.outputs.managedId
+    storageAccountName: storageName
+  }
+  dependsOn:[
+    containerInstance
+    storageAccount
+  ]
+}

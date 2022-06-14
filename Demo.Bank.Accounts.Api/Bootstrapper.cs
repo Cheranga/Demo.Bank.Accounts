@@ -71,7 +71,6 @@ public static class Bootstrapper
             });
 
             clientBuilder.AddQueueServiceClient(new Uri($"https://{storageAccount}.queue.core.windows.net")).WithCredential(credentials);
-            clientBuilder.AddTableServiceClient(new Uri($"https://{storageAccount}.table.core.windows.net")).WithCredential(credentials);
         });
     }
 
