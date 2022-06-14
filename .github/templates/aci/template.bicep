@@ -53,7 +53,7 @@ resource containerGroup 'Microsoft.ContainerInstance/containerGroups@2021-09-01'
   properties: {
     initContainers: [
       {
-        name: 'databaseSetup'
+        name: 'databasesetup'
         properties: {
           image: databaseSetupImage
           environmentVariables:[
