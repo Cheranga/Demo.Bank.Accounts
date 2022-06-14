@@ -15,7 +15,7 @@ param adminUserName string
 param adminPassword string
 
 resource sqlServer 'Microsoft.Sql/servers@2021-11-01-preview' existing = {
-  name: serverName
+  name: '${serverName}.database.windows.net'
 }
 
 resource serverName_databaseName 'Microsoft.Sql/servers/databases@2020-08-01-preview' = {  
