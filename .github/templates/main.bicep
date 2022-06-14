@@ -27,6 +27,17 @@ module storageAccount 'storageaccount/template.bicep' = {
   }
 }
 
+module testDatabase 'sqlserver/template.bicep' = {
+  name: '${buildNumber}-testdb'
+  params: {
+    serverLocation: location
+    adminPassword: databasePassword
+    adminUserName: databaseUserName
+    databaseName: databaseName
+    serverName: 'cchatsqlserver'
+  }
+}
+
 module containerInstance 'aci/template.bicep' = {
   name: '${buildNumber}-container-instance'
   params: {
