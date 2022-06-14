@@ -27,16 +27,16 @@ module storageAccount 'storageaccount/template.bicep' = {
   }
 }
 
-module testDatabase 'sqlserver/template.bicep' = {
-  name: '${buildNumber}-testdb'
-  params: {
-    location: 'australiaeast'
-    serverName: 'ccdemosqlserver'
-    databaseName: databaseName
-    adminUserName: databaseUserName
-    adminPassword: databasePassword
-  }
-}
+// module database 'sqlserver/template.bicep' = {
+//   name: '${buildNumber}-testdb'
+//   params: {
+//     location: 'australiaeast'
+//     serverName: 'ccdemosqlserver'
+//     databaseName: databaseName
+//     adminUserName: databaseUserName
+//     adminPassword: databasePassword
+//   }
+// }
 
 module containerInstance 'aci/template.bicep' = {
   name: '${buildNumber}-container-instance'
