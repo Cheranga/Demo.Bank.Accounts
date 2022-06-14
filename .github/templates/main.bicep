@@ -15,6 +15,7 @@ param databaseConnectionString string
 var storageName = 'sg${appName}${environmentName}'
 var aciName = 'aci-${appName}-${environmentName}'
 var newBankAccountsQueue = 'newbankaccounts'
+var sqlServerLocation = 'australiaeast'
 var tableNames = ''
 
 module storageAccount 'storageaccount/template.bicep' = {
@@ -30,7 +31,7 @@ module storageAccount 'storageaccount/template.bicep' = {
 module database 'sqlserver/template.bicep' = {
   name: '${buildNumber}-testdb'
   params: {
-    location: 'australiaeast'
+    location: sqlServerLocation
     serverName: databaseServerName
     databaseName: databaseName
     adminUserName: databaseUserName
@@ -38,38 +39,38 @@ module database 'sqlserver/template.bicep' = {
   }
 }
 
-module containerInstance 'aci/template.bicep' = {
-  name: '${buildNumber}-container-instance'
-  params: {
-    location: location
-    name: aciName
-    databaseConnectionString: database.outputs.connectionString
-    databaseServerName: databaseServerName
-    databaseName: databaseName
-    databaseUserName: databaseUserName
-    databasePassword: databasePassword
-    databaseSetupImage: databaseSetupImage
-    dnsName: '${appName}-${environmentName}'
-    storageAccount: storageName
-    image: containerImage
-    newBankAccountsQueue: newBankAccountsQueue
-  }
-  dependsOn: [
-    storageAccount
-    database
-  ]
-}
+// module containerInstance 'aci/template.bicep' = {
+//   name: '${buildNumber}-container-instance'
+//   params: {
+//     location: location
+//     name: aciName
+//     databaseConnectionString: database.outputs.connectionString
+//     databaseServerName: databaseServerName
+//     databaseName: databaseName
+//     databaseUserName: databaseUserName
+//     databasePassword: databasePassword
+//     databaseSetupImage: databaseSetupImage
+//     dnsName: '${appName}-${environmentName}'
+//     storageAccount: storageName
+//     image: containerImage
+//     newBankAccountsQueue: newBankAccountsQueue
+//   }
+//   dependsOn: [
+//     storageAccount
+//     database
+//   ]
+// }
 
-module rbacqueue 'rbac/template.bicep'= {
-  name: '${appName}-rbacqueues'
-  params: {    
-    accessibility: 'queue_read_write'
-    friendlyName: '${appName}queueaccess'
-    principalId: containerInstance.outputs.managedId
-    storageAccountName: storageName
-  }
-  dependsOn:[
-    containerInstance
-    storageAccount
-  ]
-}
+// module rbacqueue 'rbac/template.bicep'= {
+//   name: '${appName}-rbacqueues'
+//   params: {    
+//     accessibility: 'queue_read_write'
+//     friendlyName: '${appName}queueaccess'
+//     principalId: containerInstance.outputs.managedId
+//     storageAccountName: storageName
+//   }
+//   dependsOn:[
+//     containerInstance
+//     storageAccount
+//   ]
+// }

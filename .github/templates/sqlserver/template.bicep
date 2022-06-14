@@ -1,3 +1,4 @@
+
 @description('Location for all resources.')
 param location string = resourceGroup().location
 
@@ -57,7 +58,7 @@ resource serverName_AllowAllWindowsAzureIps 'Microsoft.Sql/servers/firewallRules
   }
 }
 
-resource symbolicname 'Microsoft.Sql/servers/connectionPolicies@2021-11-01-preview' = {
+resource connectionPolicies 'Microsoft.Sql/servers/connectionPolicies@2021-11-01-preview' = {
   name: 'default'
   parent: serverName_resource
   properties: {
