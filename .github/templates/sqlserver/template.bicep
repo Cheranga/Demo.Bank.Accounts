@@ -19,10 +19,23 @@ var dbServerUrl = '${serverName}.database.windows.net'
 resource serverName_resource 'Microsoft.Sql/servers@2020-02-02-preview' = {
   name: serverName
   location: location
+  identity:{
+    type:'SystemAssigned'
+  }
   properties: {
     administratorLogin: adminUserName
     administratorLoginPassword: adminPassword
-  }
+    minimalTlsVersion:'1.2'
+    publicNetworkAccess:'Enabled'        
+  }  
+}
+
+resource serverConnectionPolicies 'Microsoft.Sql/servers/connectionPolicies@2021-11-01-preview' = {
+  name: '${serverName}conpolicy'
+  parent: serverName_resource
+  properties:{
+    connectionType: 'Redirect'    
+  }  
 }
 
 resource serverName_databaseName 'Microsoft.Sql/servers/databases@2020-08-01-preview' = {
