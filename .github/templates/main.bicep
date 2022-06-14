@@ -56,6 +56,7 @@ module containerInstance 'aci/template.bicep' = {
   }
   dependsOn: [
     storageAccount
+    database
   ]
 }
 

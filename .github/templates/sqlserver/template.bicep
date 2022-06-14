@@ -14,6 +14,8 @@ param adminUserName string
 @secure()
 param adminPassword string
 
+var dbServerUrl = '${serverName}.database.windows.net'
+
 resource serverName_resource 'Microsoft.Sql/servers@2020-02-02-preview' = {
   name: serverName
   location: location
@@ -61,4 +63,4 @@ resource symbolicname 'Microsoft.Sql/servers/connectionPolicies@2021-11-01-previ
   ]
 }
 
-output connectionString string = 'Server=tcp:${serverName_resource.properties.fullyQualifiedDomainName},1433;Initial Catalog=${databaseName};Persist Security Info=False;User ID=${adminUserName};Password=${adminPassword};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;'
+output connectionString string = 'Server=tcp:${dbServerUrl},1433;Initial Catalog=${databaseName};Persist Security Info=False;User ID=${adminUserName};Password=${adminPassword};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;'

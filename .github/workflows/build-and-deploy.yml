@@ -103,7 +103,7 @@ jobs:
 
       - name: Provision Resources
         env:
-          DATABASE_SERVER: ccdemosqlserver${{ env.APP_NAME }}
+          DATABASE_SERVER: ccdemosqlserverdev
         uses: azure/arm-deploy@v1
         with:
           failOnStdErr: false
