@@ -64,7 +64,8 @@ jobs:
         id: generatebuildnumber
         run: |
           echo "BUILD_VERSION=$(date +%Y%m%d%H%M)" >> $GITHUB_ENV
-      - name: Build Image and Publish
+
+      - name: Build Image and Publish Bank Accounts API
         uses: Cheranga/GitHubActions/buildandpushtodockerhub@master
         with:
           dockerUserName: ${{secrets.DOCKER_USER}}
@@ -72,6 +73,15 @@ jobs:
           dockerFilePath: Demo.Bank.Accounts.Api/Dockerfile
           imageName: demobankaccounts
           imageTag: ${{ env.BUILD_VERSION }}   
+
+      - name: Build Image and Publish Bank Accounts Database Setup Sidecar
+        uses: Cheranga/GitHubActions/buildandpushtodockerhub@master
+        with:
+          dockerUserName: ${{secrets.DOCKER_USER}}
+          dockerPassword: ${{secrets.DOCKER_PASSWORD}}
+          dockerFilePath: Demo.Bank.Accounts.Database.Setup/Dockerfile
+          imageName: demobankaccountsdbsetup
+          imageTag: ${{ env.BUILD_VERSION }}             
 
       - name: Download Artifact - Templates
         uses: actions/download-artifact@v3
