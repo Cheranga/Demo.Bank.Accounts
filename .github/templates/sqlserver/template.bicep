@@ -31,7 +31,7 @@ resource serverName_resource 'Microsoft.Sql/servers@2020-02-02-preview' = {
 }
 
 resource serverConnectionPolicies 'Microsoft.Sql/servers/connectionPolicies@2021-11-01-preview' = {
-  name: '${serverName}conpolicy'
+  name: 'default'
   parent: serverName_resource
   properties:{
     connectionType: 'Redirect'    
