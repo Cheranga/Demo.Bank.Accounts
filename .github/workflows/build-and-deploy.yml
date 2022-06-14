@@ -94,5 +94,36 @@ jobs:
         with:
           credentials: ${{ secrets.AZURE_CREDENTIALS }}
           name: ${{ env.RG_NAME }}-${{ env.ENVNAME }}
-          location: ${{ env.RG_LOCATION }}                      
+          location: ${{ env.RG_LOCATION }}  
+
+      - name: Login to Azure CLI       
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}      
+
+      - name: Provision Resources
+        uses: azure/arm-deploy@v1
+        with:
+          failOnStdErr: false
+          deploymentName: ${{ env.BUILD_VERSION }}-${{ env.APP_NAME }}
+          resourceGroupName: ${{ env.RG_NAME }}-dev
+          template: deploy/main.bicep
+          parameters: >            
+            buildNumber=${{ env.BUILD_VERSION }}
+            appName=${{ env.APP_NAME }}
+            environmentName=dev
+            location=${{ env.RG_LOCATION }}
+            containerImage=${{ secrets.DOCKER_USER }}/democancelhotelbooking:${{ env.BUILD_VERSION }}            
+            databaseSetupImage=${{ secrets.DOCKER_USER }}/demobankaccountsdbsetup:${{ env.BUILD_VERSION }}            
+            databaseServerName=${{ secrets.DATABASE_SERVER_NAME }}
+            databaseName=${{ secrets.DATABASE_NAME }}
+            databaseUserName=${{ secrets.DATABASE_USERNAME }}
+            databasePassword=${{ secrets.DATABASE_PASSWORD }}
+            databaseConnectionString=${{ secrets.DATABASE_CONNECTIONSTRING }}            
+
+      - name: Logout from Azure CLI     
+        uses: azure/CLI@v1
+        with:
+          inlineScript: |
+            az logout                                    
   
