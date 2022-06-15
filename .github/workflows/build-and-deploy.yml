@@ -110,6 +110,8 @@ jobs:
         env:
           DATABASE_SERVER: ccdemosqlserverdev
           SQL_SERVER_LOCATION: australiaeast
+          POLLING_SECONDS: 30
+          VISIBILITY_SECONDS: 300
         uses: azure/arm-deploy@v1
         with:
           failOnStdErr: false
@@ -128,6 +130,8 @@ jobs:
             databaseName=${{ secrets.DATABASE_NAME }}
             databaseUserName=${{ secrets.DATABASE_USERNAME }}
             databasePassword=${{ secrets.DATABASE_PASSWORD }}
+            pollingSeconds=${{ env.POLLING_SECONDS }}
+            visibilityInSeconds=${{ env.VISIBILITY_SECONDS }}
 
       - name: Logout from Azure CLI     
         uses: azure/CLI@v1

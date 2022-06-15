@@ -35,6 +35,8 @@ param databaseServerName string
 param databaseName string
 param databaseUserName string
 param newBankAccountsQueue string
+param visibilityInSeconds int = 3000
+param pollingSeconds int = 60
 
 @secure()
 param databasePassword string
@@ -110,7 +112,15 @@ resource containerGroup 'Microsoft.ContainerInstance/containerGroups@2021-09-01'
             {
               name: 'BankAccountConfig__NewBankAccountsQueue'
               value: newBankAccountsQueue
-            }                       
+            } 
+            {
+              name: 'BankAccountConfig__VisibilityInSeconds'
+              value: string(visibilityInSeconds)
+            } 
+            {
+              name: 'BankAccountConfig__PollingSeconds'
+              value: string(pollingSeconds)
+            }                          
           ]
         }
       }

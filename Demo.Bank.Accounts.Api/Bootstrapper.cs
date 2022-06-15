@@ -1,5 +1,6 @@
 ﻿using Azure.Identity;
 using Demo.Bank.Accounts.Api.Features.CreateBankAccount;
+using Demo.Bank.Accounts.Api.Features.ProcessBankAccount;
 using Demo.Bank.Accounts.Api.Features.SaveBankAccount;
 using Demo.Bank.Accounts.Api.Features.Shared;
 using Demo.Bank.Accounts.Api.Features.TransferMoney;
@@ -24,6 +25,12 @@ public static class Bootstrapper
         RegisterResponseCreators(services);
         RegisterMessaging(services);
         RegisterDataAccess(services);
+        RegisterBackgroundServices(services);
+    }
+
+    private static void RegisterBackgroundServices(IServiceCollection services)
+    {
+        services.AddHostedService<ProcessBankAccountService>();
     }
 
     private static void RegisterDataAccess(IServiceCollection services)
@@ -43,6 +50,7 @@ public static class Bootstrapper
     private static void RegisterMessaging(IServiceCollection services)
     {
         services.AddScoped<IMessagePublisher, MessagePublisher>();
+        services.AddSingleton<IMessageReader, MessageReader>();
     }
 
     private static void RegisterAzureClients(WebApplicationBuilder builder)
