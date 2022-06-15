@@ -6,6 +6,8 @@ env:
   RG_LOCATION: australiasoutheast
   DOTNET_VERSION: 6.0.x
   PUBLISHED_PATH: ./published
+  BANKAPI_IMAGE_NAME: demobankaccounts
+  DBSETUP_IMAGE_NAME: demobankaccountsdbsetup
   
 on:
 
@@ -74,7 +76,7 @@ jobs:
           dockerUserName: ${{secrets.DOCKER_USER}}
           dockerPassword: ${{secrets.DOCKER_PASSWORD}}
           dockerFilePath: Demo.Bank.Accounts.Api/Dockerfile
-          imageName: demobankaccounts
+          imageName: ${{ env.BANKAPI_IMAGE_NAME }}
           imageTag: ${{ env.BUILD_VERSION }}   
 
       - name: Build Image and Publish Bank Accounts Database Setup Sidecar
@@ -83,7 +85,7 @@ jobs:
           dockerUserName: ${{secrets.DOCKER_USER}}
           dockerPassword: ${{secrets.DOCKER_PASSWORD}}
           dockerFilePath: Demo.Bank.Accounts.Database.Setup/Dockerfile
-          imageName: demobankaccountsdbsetup
+          imageName: ${{ env.DBSETUP_IMAGE_NAME }}
           imageTag: ${{ env.BUILD_VERSION }}             
 
       - name: Download Artifact - Templates
