@@ -60,7 +60,7 @@ module containerInstance 'aci/template.bicep' = {
 }
 
 module rbacqueue 'rbac/template.bicep'= {
-  name: '${appName}-rbacqueues'
+  name: '${buildNumber}-rbac-queues'
   params: {    
     accessibility: 'queue_read_write'
     friendlyName: '${appName}queueaccess'
