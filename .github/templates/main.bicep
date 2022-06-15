@@ -4,13 +4,12 @@ param environmentName string
 param location string = resourceGroup().location
 param containerImage string
 param databaseSetupImage string
+param sqlServerLocation string
 param databaseServerName string
 param databaseName string
 param databaseUserName string
 @secure()
 param databasePassword string
-@secure()
-param databaseConnectionString string
 
 var storageName = 'sg${appName}${environmentName}'
 var aciName = 'aci-${appName}-${environmentName}'
@@ -27,13 +26,24 @@ module storageAccount 'storageaccount/template.bicep' = {
   }
 }
 
+module database 'sqlserver/template.bicep' = {
+  name: '${buildNumber}-database-setup'
+  params: {
+    location: sqlServerLocation
+    serverName: databaseServerName
+    databaseName: databaseName
+    adminUserName: databaseUserName
+    adminPassword: databasePassword
+  }
+}
+
 module containerInstance 'aci/template.bicep' = {
   name: '${buildNumber}-container-instance'
   params: {
     location: location
     name: aciName
-    databaseConnectionString: databaseConnectionString
-    databaseServerName: databaseServerName
+    databaseConnectionString: database.outputs.connectionString
+    databaseServerName: database.outputs.databaseServerUrl
     databaseName: databaseName
     databaseUserName: databaseUserName
     databasePassword: databasePassword
@@ -45,11 +55,12 @@ module containerInstance 'aci/template.bicep' = {
   }
   dependsOn: [
     storageAccount
+    database
   ]
 }
 
 module rbacqueue 'rbac/template.bicep'= {
-  name: '${appName}-rbacqueues'
+  name: '${buildNumber}-rbac-queues'
   params: {    
     accessibility: 'queue_read_write'
     friendlyName: '${appName}queueaccess'

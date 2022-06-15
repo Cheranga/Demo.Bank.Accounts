@@ -21,6 +21,9 @@ on:
     paths-ignore:
       - README.md
       - .gitignore
+  
+  workflow_dispatch:
+    
         
 jobs:
   build:
@@ -102,6 +105,9 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}      
 
       - name: Provision Resources
+        env:
+          DATABASE_SERVER: ccdemosqlserverdev
+          SQL_SERVER_LOCATION: australiaeast
         uses: azure/arm-deploy@v1
         with:
           failOnStdErr: false
@@ -115,11 +121,11 @@ jobs:
             location=${{ env.RG_LOCATION }}
             containerImage=${{ secrets.DOCKER_USER }}/demobankaccounts:${{ env.BUILD_VERSION }}            
             databaseSetupImage=${{ secrets.DOCKER_USER }}/demobankaccountsdbsetup:${{ env.BUILD_VERSION }}            
-            databaseServerName=${{ secrets.DATABASE_SERVER_NAME }}
+            databaseServerName=${{ env.DATABASE_SERVER }}
+            sqlServerLocation=${{ env.SQL_SERVER_LOCATION }}
             databaseName=${{ secrets.DATABASE_NAME }}
             databaseUserName=${{ secrets.DATABASE_USERNAME }}
             databasePassword=${{ secrets.DATABASE_PASSWORD }}
-            databaseConnectionString=${{ secrets.DATABASE_CONNECTIONSTRING }}            
 
       - name: Logout from Azure CLI     
         uses: azure/CLI@v1

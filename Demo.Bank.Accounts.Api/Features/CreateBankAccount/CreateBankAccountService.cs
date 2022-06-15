@@ -53,9 +53,9 @@ public class CreateBankAccountService : ICreateBankAccountService
             BankAccountId = request.BankAccountId
         };
 
+        _logger.LogInformation("{CorrelationId} create bank account request received", request.CorrelationId);
+        
         var upsertOperation = await _commandHandler.ExecuteAsync(command);
-        
-        
 
         var operation = await _messagePublisher.PublishAsync(_config.NewBankAccountsQueue, request);
         if (!operation.Status)

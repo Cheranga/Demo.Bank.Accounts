@@ -46,6 +46,7 @@ public class MessagePublisher : IMessagePublisher
             return Result.Failure(ErrorCodes.MessagePublishError, ErrorMessages.MessagePublishError);
         }
 
+        _logger.LogInformation("{CorrelationId} message published successfully", data.CorrelationId);
         return Result.Success();
     }
 }
