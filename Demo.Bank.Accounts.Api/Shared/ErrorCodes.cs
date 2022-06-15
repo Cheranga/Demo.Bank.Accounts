@@ -11,6 +11,8 @@ public class ErrorCodes
     public const string MessagePublishError = nameof(MessagePublisher);
     public const string InvalidCommand = nameof(InvalidCommand);
     public const string CommandError = nameof(CommandError);
+    public const string QueueDoesNotExist = nameof(QueueDoesNotExist);
+    public const string MessageReadError = nameof(MessageReadError);
 }
 
 public class ErrorMessages
@@ -22,4 +24,6 @@ public class ErrorMessages
     public const string MessagePublishError = "error occurred when publishing a message to the queue";
     public const string InvalidCommand = "invalid command";
     public const string CommandError = "error occurred when executing the data command";
+    public const string QueueDoesNotExist = "queue does not exists";
+    public const string MessageReadError = "error occurred when reading the message";
 }

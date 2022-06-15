@@ -11,6 +11,9 @@ param databaseUserName string
 @secure()
 param databasePassword string
 
+param pollingSeconds int
+param visibilityInSeconds int
+
 var storageName = 'sg${appName}${environmentName}'
 var aciName = 'aci-${appName}-${environmentName}'
 var newBankAccountsQueue = 'newbankaccounts'
@@ -52,6 +55,8 @@ module containerInstance 'aci/template.bicep' = {
     storageAccount: storageName
     image: containerImage
     newBankAccountsQueue: newBankAccountsQueue
+    visibilityInSeconds: visibilityInSeconds
+    pollingSeconds: pollingSeconds
   }
   dependsOn: [
     storageAccount
