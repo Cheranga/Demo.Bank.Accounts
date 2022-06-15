@@ -21,6 +21,9 @@ on:
     paths-ignore:
       - README.md
       - .gitignore
+  
+  workflow_dispatch:
+    
         
 jobs:
   build:
