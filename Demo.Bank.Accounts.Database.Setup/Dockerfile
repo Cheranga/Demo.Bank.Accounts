@@ -4,9 +4,9 @@ WORKDIR /app
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 COPY . .
-RUN dotnet restore
+RUN dotnet restore Demo.Bank.Accounts.Database.Setup.csproj
 COPY . .
-RUN dotnet publish -c release -o /databasemigration
+RUN dotnet publish "Demo.Bank.Accounts.Database.Setup.csproj" -c release -o /databasemigration
 
 FROM base as final
 WORKDIR /databasemigration

@@ -9,6 +9,8 @@ using Demo.Bank.Accounts.Api.Infrastructure.Messaging;
 using Demo.Bank.Accounts.Api.Shared;
 using FluentValidation;
 using Microsoft.Extensions.Azure;
+using Serilog;
+using Serilog.Events;
 
 namespace Demo.Bank.Accounts.Api;
 
@@ -18,6 +20,7 @@ public static class Bootstrapper
     {
         var services = builder.Services;
 
+        RegisterLogging(builder);
         RegisterConfigs(builder);
         RegisterAzureClients(builder);
         RegisterValidators(services);
@@ -26,6 +29,19 @@ public static class Bootstrapper
         RegisterMessaging(services);
         RegisterDataAccess(services);
         RegisterBackgroundServices(services);
+    }
+
+    private static void RegisterLogging(WebApplicationBuilder builder)
+    {
+        builder.Host.UseSerilog((_, configuration) =>
+        {
+            configuration.MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
+                .MinimumLevel.Override("Azure", LogEventLevel.Warning)
+                .Enrich.FromLogContext()
+                .Enrich.WithMachineName()
+                .Enrich.WithProperty("Assembly", typeof(Bootstrapper).Assembly.GetName().Name)
+                .WriteTo.Console();
+        });
     }
 
     private static void RegisterBackgroundServices(IServiceCollection services)
