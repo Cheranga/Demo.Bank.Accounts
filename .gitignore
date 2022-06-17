@@ -24,3 +24,5 @@ Demo.Bank.Accounts.Database.Setup/obj/
 demodata/
 
 storagedata/
+
+api/obj/
