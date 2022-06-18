@@ -12,4 +12,3 @@ FROM base as final
 WORKDIR /databasemigration
 COPY --from=build /databasemigration .
 ENTRYPOINT ["dotnet", "Demo.Bank.Accounts.Database.Setup.dll"]
-CMD ["arg0", "arg1", "arg2", "arg3"]
